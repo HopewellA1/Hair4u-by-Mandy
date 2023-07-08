@@ -1,0 +1,87 @@
+{% extends "StorManager/base.html" %}
+
+{% block content %}
+
+{% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <br/>
+            <div>
+                <center>
+                    <div style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:40%; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                    <p >
+                        <b> {{ message }}.</b>
+                    </p>
+                    </div>
+                </center>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+
+
+
+
+    <div class="container">
+
+        <div>
+
+            <div class="row">
+                {% if items%}
+                    {% for item in items %}
+                
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                        {% comment %}  src="http://127.0.0.1:8000/media/TheFiles/files/Screenshot_2023-03-06_215627.png"{% endcomment %}
+                                        <img style="width:inherit; width:100%;border:solid;max-height:320px" src="http://{{domain}}/media/{{item.ItemVisual}}"/>
+                                        
+                                    </div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2" style="display:flex; justify-content: space-between;">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                {{item.ItemName}}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">R{{item.Price}}</div>
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="row no-gutters align-items-center" style="padding:1rem">
+                                        <div class="col-auto"  styl="display:flex; justify-content:space-between;align-content:center" >
+                                            <a href="{% url 'itemDetails' itemId=item.ItemId %}"> <i class="fas fa-eye view-icon"></i></a>
+                                            
+                                            <a style="padding:5px" href="#"><i class="fas fa-shopping-cart  cart-icon"></i></a>
+                                            <a href="{% url 'DeleteItem' ItemId=item.ItemId %}"><i class="fas  fa-trash-alt bin-icon"></i></a>
+                                           
+                                            <a href="{% url 'ItemUpdate' itemId=item.ItemId %}" style="padding:5px"><i class="fas  fa-pencil-alt edit-icon"></i></a>
+                                        </div>
+                                    </div>
+                            
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor%}
+                {%endif%}
+
+    
+
+
+
+
+            
+
+
+            </div>
+
+        <div>
+
+
+    </div>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,45 @@
+
+{% extends "TheFiles/base.html" %}
+
+{% block content %}
+    {% load static %}
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:white;color:green; border:solid 2px green">
+                <p>
+                    <h3><b>{{ message }}</b></h3>
+                </p>
+                </div>
+            </center>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+
+
+
+    {% if federation %}
+    <h1><b>{{federation.FederationName}}</b></h1>
+        <a href="http://kznsannualreport.pythonanywhere.com{{federation.last_AGM_Minutes}}">last_AGM_Minutes</a><br/>
+        <a href="http://kznsannualreport.pythonanywhere.com{{federation.OfficialLetterhead}}">OfficialLetterhead</a><br/>
+        <a href="http://kznsannualreport.pythonanywhere.com{{federation.Constitution}}">Constitution</a><br/>
+        <a href="http://kznsannualreport.pythonanywhere.com{{federation.Annual_Financial_Statement}}">Annual_Financial_Statement</a><br/>
+        <a href="http://kznsannualreport.pythonanywhere.com{{federation.Tax_Clearance_Copy}}">SARS_Tax_Clearance</a><br/>
+        <a href="http://kznsannualreport.pythonanywhere.com{{federation.OfficialLetterhead}}">Child_Protection_Policies</a><br/>
+        <a href="http://kznsannualreport.pythonanywhere.com{{federation.Child_Protection_Copy}}">OfficialLetterhead</a><br/>
+        
+        
+        
+        url:{{federation.last_AGM_Minutes}}<br/>
+        federation:{{federation}}
+    {% endif %}
+
+
+
+
+
+{% endblock %}

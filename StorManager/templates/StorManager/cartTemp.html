@@ -1,0 +1,24 @@
+{% extends "StorManager/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:40%">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+
+
+
+{% endblock %}

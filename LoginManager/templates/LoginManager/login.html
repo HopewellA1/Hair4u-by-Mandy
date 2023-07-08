@@ -1,0 +1,64 @@
+{% extends "StorManager/base.html" %}
+
+{% block content %}
+{% load static %}
+{% if messages %}
+    {% for message in messages %}
+    <br/>
+    <div>
+        <center>
+            <div style="padding:1rem; background-color:white;color:green; border:solid 2px green">
+            <p>
+                <h3><b>{{ message }}</b></h3>
+            </p>
+            </div>
+        </center>
+        </div>
+
+    {% endfor %}
+{% endif %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <center>
+            <h2>Login</h2> 
+        </center>
+
+        <div class="text-center">
+            Need an account? Sign Up<a href="{% url 'Signup' %}" style="color:blue"> here</a>
+        </div>
+        <div class="text-center">
+            forgot password? Reset<a href="{% url 'reset_password' %}" style="color:blue"> here</a>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="email">email</label>
+                <input type="email" name="email" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" id="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <hr>
+     
+        <div class="text-center">
+            Need an account? Sign Up<a href="{% url 'Signup' %}" style="color:blue"> here</a>
+        </div>
+        <div class="text-center">
+            forgot password? Reset<a href="{% url 'reset_password' %}" style="color:blue"> here</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

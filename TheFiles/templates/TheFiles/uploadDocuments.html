@@ -1,0 +1,25 @@
+
+{% extends "TheFiles/base.html" %}
+
+{% block content %}
+    {% load static %}
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:white;color:green; border:solid 2px green">
+                <p>
+                    <h3><b>{{ message }}</b></h3>
+                </p>
+                </div>
+            </center>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+
+
+
+{% endblock %}

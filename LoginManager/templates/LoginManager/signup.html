@@ -1,0 +1,101 @@
+{% extends "StorManager/base.html" %}
+
+{% block content %}
+{% load static %}
+{% if messages %}
+    {% for message in messages %}
+    <br/>
+    <div>
+        <center>
+            <div style="padding:1rem; background-color:white;color:green; border:solid 2px green">
+            <p>
+                <h3><b>{{ message }}</b></h3>
+            </p>
+            </div>
+        </center>
+        </div>
+
+    {% endfor %}
+{% endif %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <center>
+            <h2>Sign Up</h2>
+        </center>
+        <hr/>
+        <div class="text-center">
+            Do you already have an account? Login<a href="{% url 'login' %}" style="color:blue"> here</a>
+          
+        
+        </div>
+       
+        <div class="text-center">
+            forgot password? Reset<a href="{% url 'reset_password' %}" style="color:blue"> here</a>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+            
+        
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="first_name">First name</label>
+                <input type="text" required name="first_name" class="form-control" id="first_name" aria-describedby="emailhelp">
+                
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last name</label>
+                <input type="text" required name="last_name" class="form-control" id="last_name" aria-describedby="emailhelp">
+                
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" required name="email" class="form-control" id="email" aria-describedby="emailhelp">
+                <small id="emailhelp" class="form-text text-muted">Your username must be unique. We'll let you know if someone has taken it already.</small>
+            </div>
+           
+            <div class="form-group">
+                <label for="password1">Password</label>
+                <input type="password" required name="password1" class="form-control" id="password1">
+            </div>
+            <div class="form-group">
+                <label for="password2">Confirm Password</label>
+                <input type="password" required name="password2" class="form-control" id="password2">
+            </div>
+            {% for field in registration_form %}
+                <p>
+                    {% for error in field.errors %}
+                        <p style="color: red">{{error}}</p>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+            {% if registration_form.non_field_errors %}
+                <div>
+                    <p>
+                        {{ registration_form.non_field_errors }}
+                    </p>
+                </div>
+            {% endif %}   
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+        <hr>
+        <div class="text-center">
+            Do you already have an account? Login<a href="{% url 'login' %}" style="color:blue"> here</a>
+          
+        
+        </div>
+       
+        <div class="text-center">
+            forgot password? Reset<a href="{% url 'reset_password' %}" style="color:blue"> here</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "StorManager/base.html" %}
+
+{% block content %}
+
+
+
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div  style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:40%; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                    <p >
+                        <b> {{ message }}.</b>
+                    </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+    
+    <div style="padding:1rem">
+        <center>
+            <div id="msgDiv" hidden style="padding:1rem;  border:solid 2px white; border-radius:15px; width:40%; display:flex; justify-content:center;align-centent:center;" >
+            
+            </div>
+        </center>
+    </div>
+    <style>
+        
+    </style>
+
+
+    <div class="container" style="display: flex;justify-content: center;align-items: center; ">
+        <div class="row" >
+            <div id="itemImangeDive" class="col-md-6" style="border-radius:20px;border:solid 1px white;border-right: none;display: flex;justify-content: center;align-items: center; padding:10px; " >
+                <img id="ItemVisual_selected" style="width:inherit; width:100%;border-radius:12px" src="http://{{domain}}/media/{{item.ItemVisual}}" />
+            </div>
+            <div class="col-md-4" id="ItemInfoDiv"  style="border:solid 1px white;border-left: none;border-radius:20px; padding:10px; ">
+                <form method="post"  enctype="multipart/form-data" style="color:white">
+                    
+                    <div id="HolderInput">
+                        <label class="form-label" ><b>Item Name</b></label>
+                        <input disabled type="text"  name="ItemName" value="{{item.ItemName}}" class=" form-control form-control-lg"/>
+                    </div> 
+                    <div>
+                        <label class="form-label" ><b>Price</b>*</label>
+                        <input disabled value="{{item.Price}}" type="text" name="Price" placeholder="R0.00" class="form-control form-control-lg"/>
+                    </div> 
+                    
+                    <div>
+                        <label class="form-label" ><b>Quantity</b>*</label>
+                        <input disabled value="{{item.Quantity}}" type="number" name="Quantity"  class="form-control form-control-lg"/>
+                    </div> 
+                   
+                    <div>
+                        <label class="form-label" ><b>Description</b>*</label>
+                        <textarea disabled type="text" name="ItemDescription"  class="form-control form-control-lg">{{item.ItemDescription}}</textarea>
+                        <input disabled  accept="image/*" id="ItemVisualIput"  hidden type="file" name="ItemVisualIput"/>
+                    </div>
+    
+                
+                    
+                </form>
+                <div  style="height:auto; cursor:pointer;padding:1rem; display:flex; justify-content:center; align-content:center">
+                        
+                            
+                                
+                    {% if user.is_superuser %}
+                        
+                        <form method="post"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div>
+                             
+                                    <div  style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:100%; display:flex; justify-content:center;align-centent:center;" class="alert alert-danger">
+                                        <p >
+                                           <h3><b> Are you sure you want to delete this Item?</b></h3>
+                                        </p>
+                                    </div>
+                                
+                            </div>
+                            <button type="submit" style=" border-radius:100px; width:100%;height:auto;background-color:#284678;color:white; display:flex; justify-content:center "  class="form-control form-control-lg text-center" >
+                               Confirm Item Delete 
+                            </button>
+                            <a href="{% url 'itemDetails' itemId=item.ItemId %}" style=" border-radius:100px; width:100%;height:auto;background-color:green;color:white; display:flex; justify-content:center "  class="form-control form-control-lg text-center" >
+                               Cancel
+                            </a>
+                           
+                        </form>
+                        
+                    {% endif %}
+            
+                        
+                    
+                </div>
+            </div>
+
+          
+        
+
+        </div>
+
+
+    </div>
+
+        <script>
+
+           
+    
+        
+            ItemVisualIput.addEventListener("change",function() {
+        
+            });
+           
+            
+
+         
+        </script>
+{% endblock %}

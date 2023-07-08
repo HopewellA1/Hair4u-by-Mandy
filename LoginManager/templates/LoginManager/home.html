@@ -1,0 +1,38 @@
+<html>
+    <head></head>
+    <body>
+        <div>
+            <br/>
+        </div>
+        <hr/>
+        <div>
+            <h1>Home page</h1>
+        </div>
+        <hr/>
+        <div>
+            {% if messages %}
+                {% for message in messages %}
+                    <div>
+                        <p>
+                            {{ message }}
+                        </p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if user.is_authenticated == False %}
+            <div>
+                <a href="{% url 'Signup' %}">Signup</a> | <a href="{% url 'login' %}">Login</a>
+                <hr/>
+                
+                
+            </div>
+            {% endif %}
+        
+            {% if user.is_authenticated %}
+                <a href="{% url 'reset' %}">change password</a> | <a href="{% url 'logoutuser' %}">logout</a>
+            {% endif %}    
+
+
+        </div>
+    </body>
+</html>

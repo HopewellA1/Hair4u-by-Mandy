@@ -1,0 +1,242 @@
+
+{% extends "TheFiles/base.html" %}
+
+{% block content %}
+    {% load static %}
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:white;color:green; border:solid 2px green">
+                <p>
+                    <h3><b>{{ message }}</b></h3>
+                </p>
+                </div>
+            </center>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+<a hidden href="http://127.0.0.1:8000/FederationCreate/" id="toIpiLink"></a>
+    <div class="container">
+
+        <div id="form-wrapper">
+            
+            <form id="form"  method="post"  enctype="multipart/form-data" >
+                {% csrf_token %}
+                    <div class="flex-wrapper">
+                        <div class="form-row field-OfficialLetterhead">
+            
+            
+                            <div>
+                                
+                                
+                                    <label for="id_OfficialLetterhead">OfficialLetterhead:</label>
+                                    
+                                        <input required type="file" name="OfficialLetterhead" id="id_OfficialLetterhead">
+                                    
+                                
+                                
+                            </div>
+                        
+                    </div>
+                
+                    <div class="form-row field-Constitution">
+                        
+                        
+                            <div>
+                                
+                                
+                                    <label for="id_Constitution">Constitution:</label>
+                                    
+                                        <input required type="file" name="Constitution" id="id_Constitution">
+                                    
+                                
+                                
+                            </div>
+                        
+                    </div>
+                
+                    <div class="form-row field-last_AGM_Minutes">
+                        
+                        
+                            <div>
+                                
+                                
+                                    <label for="id_last_AGM_Minutes">Last AGM Minutes:</label>
+                                    
+                                        <input required type="file" name="last_AGM_Minutes" id="id_last_AGM_Minutes">
+                                    
+                                
+                                
+                            </div>
+                        
+                    </div>
+                
+                    <div class="form-row field-Annual_Financial_Statement">
+                        
+                        
+                            <div>
+                                
+                                
+                                    <label for="id_Annual_Financial_Statement">Annual Financial Statement:</label>
+                                    
+                                        <input required type="file" name="Annual_Financial_Statement" id="id_Annual_Financial_Statement">
+                                    
+                                
+                                
+                            </div>
+                        
+                    </div>
+                
+                    <div class="form-row field-SARS_Tax_Clearance">
+                        
+                        
+                            <div>
+                                
+                                
+                                    <label class="required" for="id_SARS_Tax_Clearance">SARS Tax Clearance:</label>
+                                    
+                                        <input required type="text" name="SARS_Tax_Clearance" value="Yes" class="vTextField" maxlength="3" required id="id_SARS_Tax_Clearance">
+                                    
+                                
+                                
+                            </div>
+                        
+                    </div>
+                
+                    <div class="form-row field-Tax_Clearance_Copy">
+                        
+                        
+                            <div>
+                                
+                                
+                                    <label for="id_Tax_Clearance_Copy">Tax Clearance Copy:</label>
+                                    
+                                        <input required type="file" name="Tax_Clearance_Copy" id="id_Tax_Clearance_Copy">
+                                    
+                                
+                                
+                            </div>
+                        
+                    </div>
+                
+                    <div class="form-row field-Child_Protection_Policies">
+                        
+                        
+                            <div>
+                                
+                                
+                                    <label class="required" for="id_Child_Protection_Policies">Child Protection Policies:</label>
+                                    
+                                        <input required type="text" name="Child_Protection_Policies" value="Yes" class="vTextField" maxlength="3" required id="id_Child_Protection_Policies">
+                                    
+                                
+                                
+                            </div>
+                        
+                    </div>
+                
+                    <div class="form-row field-Child_Protection_Copy">
+                        
+                        
+                            <div>
+                                
+                                
+                                    <label for="id_Child_Protection_Copy">Child Protection Copy:</label>
+                                    
+                                        <input required type="file" name="Child_Protection_Copy" id="id_Child_Protection_Copy">
+                                    
+                                
+                                
+                            </div>
+                        
+                    </div>
+                    <div>
+                        <div style="flex: 1">
+                            <input id="submit" class="btn" type="submit" >
+                        </div>
+                    </div>
+            </form>
+            
+
+            <div id="list-wrapper">
+            
+            </div>	
+        </div>
+
+    </div>
+
+
+
+    {% comment %} <script type="text/javascript">
+
+        //This function create the csrf token
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+
+
+        var form = document.getElementById('form-wrapper')
+        form.addEventListener('submit', function(e){
+			e.preventDefault()
+			console.log('Form submitted')
+			var url = 'http://127.0.0.1:8000/FederationCreate/'
+			
+
+
+
+			var OfficialLetterhead = document.getElementById('id_OfficialLetterhead').value;
+            var Constitution = document.getElementById('id_Constitution').value;
+            var last_AGM_Minutes = document.getElementById('id_last_AGM_Minutes').value;
+            var Annual_Financial_Statement = document.getElementById('id_Annual_Financial_Statement').value;
+            var SARS_Tax_Clearance = document.getElementById('id_SARS_Tax_Clearance').value;
+            var Tax_Clearance_Copy = document.getElementById('id_Tax_Clearance_Copy').value;
+            var Child_Protection_Policies = document.getElementById('id_Child_Protection_Policies').value;
+            var Child_Protection_Copy = document.getElementById('id_Child_Protection_Copy').value;
+
+
+			fetch(url, {
+				method:'POST',
+				headers:{
+					'Content-type':'application/json',
+					'X-CSRFToken':csrftoken,
+				},
+				body:JSON.stringify({
+                    'FederationName':"Ethekwini Softball Association",
+                    'OfficialLetterhead':OfficialLetterhead,
+                    'Constitution': Constitution,
+                    'last_AGM_Minutes':last_AGM_Minutes,
+                    'Annual_Financial_Statement':Annual_Financial_Statement,
+                    'SARS_Tax_Clearance':SARS_Tax_Clearance,
+                    'Tax_Clearance_Copy':Tax_Clearance_Copy,
+                    'Child_Protection_Policies':Child_Protection_Policies,
+                    'Child_Protection_Copy':Child_Protection_Copy
+                
+                })
+                console.log(Child_Protection_Copy)
+			}
+			).then(function(response){
+				
+				//document.getElementById('form').reset()
+                //link1 = document.getElementById('toIpiLink').click()
+			})
+		})
+
+    </script> {% endcomment %}
+
+{% endblock %}

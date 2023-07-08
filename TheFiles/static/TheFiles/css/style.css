@@ -1,0 +1,26 @@
+main {
+	margin: 3rem 6rem;
+	padding: 2rem;
+	background-color: #ddd;
+}
+header {
+	padding: 1rem;
+}
+.faq {
+	padding: .2rem 2rem;
+	border-radius: 5px;
+	border-bottom: 1px solid #fff;
+	cursor: pointer;
+}
+.faq:hover {
+	background-color: #bbb;
+}
+.faq p {
+	display: none;
+}
+.faq.active {
+	background-color: #fff;
+}
+.faq.active p {
+	display: block;
+}

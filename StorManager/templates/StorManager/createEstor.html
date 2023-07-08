@@ -1,0 +1,64 @@
+{% extends "StorManager/base.html" %}
+
+{% block content %}
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px; width:40%">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+    
+
+    <div class="container">
+  
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label class="form-label" >Estore Name*</label>
+                <input type="text" required name="EstoreName"  class="form-control form-control-lg"/>
+            </div> 
+            <div>
+                <label class="form-label" >Phone Number*</label>
+                <input required type="text" name="PhoneNumber"  class="form-control form-control-lg"/>
+            </div> 
+            <div>
+                <label class="form-label" >Email Address*</label>
+                <input required type="text" name="EmailAddress"  class="form-control form-control-lg"/>
+            </div> 
+            <div>
+                <label class="form-label" >Address</label>
+                <input  type="text" name="Address"  class="form-control form-control-lg"/>
+            </div> 
+            <div>
+                <label class="form-label" >Type*</label>
+                <input required type="text" name="Type"  class="form-control form-control-lg"/>
+            </div> 
+            <div>
+                <label class="form-label" >Description*</label>
+                <textarea required type="text" name="Description"  class="form-control form-control-lg"></textarea>
+            </div> 
+            <div>
+                <label class="form-label" >Ts And Cs*</label>
+                <input required type="text" name="TsAndCsAccepted"  class="form-control form-control-lg"/>
+            </div>  
+            <div style="display:flex; justify-content:center; padding: 1rem">
+                
+                <input type="submit" style="border-radius:100px; width:40%;background-color:#284678;color:white "  class="form-control form-control-lg" value="Submit and Continue" />
+            </div>  
+        </form>
+
+
+    <div>
+
+{% endblock %}

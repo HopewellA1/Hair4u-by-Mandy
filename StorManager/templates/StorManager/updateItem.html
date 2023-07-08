@@ -1,0 +1,186 @@
+{% extends "StorManager/base.html" %}
+
+{% block content %}
+
+
+
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:40%; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                <p >
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+
+    <style>
+      
+       
+    </style>
+
+
+    <div class="container">
+  
+        <form method="post"  enctype="multipart/form-data" style="color:white">
+            {% csrf_token %}
+            <div id="HolderInput">
+                <label class="form-label" ><b>Item Name</b>*</label>
+                <input  type="text" required name="ItemName"  class=" form-control form-control-lg"/>
+            </div> 
+            <div>
+                <label class="form-label" ><b>Price</b>*</label>
+                <input required type="text" name="Price" placeholder="R0.00" class="form-control form-control-lg"/>
+            </div> 
+            
+            <div>
+                <label class="form-label" ><b>Quantity</b>*</label>
+                <input required type="number" name="Quantity"  class="form-control form-control-lg"/>
+            </div> 
+          
+            <div>
+                <label class="form-label" >Description*</label>
+                <textarea required type="text" name="ItemDescription"  class="form-control form-control-lg"></textarea>
+                <input id="ItemVisualIput"  hidden type="file" name="ItemVisualIput"/>
+            </div>
+            <div >
+                <br/>
+                
+                <div id="ItemVisual_selected" style="min-height:40px;height:auto; cursor:pointer;padding:10px; " class="form-control form-control-lg selected">
+                
+                    <h5 class="text-info" ><b>No file selected, click to select item image</b></h5>
+                
+
+                </div>
+               
+                {% if access == "update"%}
+
+                <h5 class="text-warning"><b>Click to update file</b></h5>
+                {% endif %}
+
+            </div>
+            </div>
+            <div style="display:flex; justify-content:center; padding: 1rem">
+                <button type="submit" style=" border-radius:100px; width:40%;height:;background-color:#284678;color:white; display:flex; justify-content:center "  class="form-control form-control-lg" >
+                    Add Item
+                </button>
+             
+            </div>  
+        </form>
+<hr/>
+        <div>
+
+            <div class="row">
+                {% if items%}
+                    {% for item in items %}
+                   
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                        {% comment %}  src="http://127.0.0.1:8000/media/TheFiles/files/Screenshot_2023-03-06_215627.png"{% endcomment %}
+                                        <img style="width:inherit; width:100%;border:solid;max-height:320px" src="http://127.0.0.1:8000/{{item.ItemVisual}}"/>
+                                        
+                                    </div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                {{item.ItemName}}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">R{{item.Price}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                            
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor%}
+                {%endif%}
+
+       
+
+
+
+
+               
+
+
+            </div>
+
+        <div>
+    <div>
+
+
+
+
+        <script>
+            //script for validating image
+            ItemVisual_selected = document.getElementById("ItemVisual_selected");
+            ItemVisualIput = document.getElementById('ItemVisualIput');
+
+            ItemVisual_selected.addEventListener('click',function(){
+                ItemVisualIput.click()
+            })
+            ItemVisualIput.addEventListener("change",function() {
+                ItemVisual_selected.innerHTML= '<h6 class="text-info" style="color:#fa1414"><b>uploading image file... please wait.</b></h6>';
+                    
+                UploadIsValid(ItemVisualIput.files[0])
+                return null;
+            });
+            function UploadIsValid(file){
+                var ext = file.name.split('.').reverse()[0] 
+                oldFilrName = file.name
+                console.log(file)
+                //first we check the file size
+                if(file.size > (5*1024*1024)){
+                    ItemVisual_selected.innerHTML= '<h6 class="text-danger">All files must not exceed 5mb in size.</h6>';
+                    
+                    ItemVisualIput.value =null;
+                    return;
+                }
+                else if( file.size < (5*1024*1024)){
+                    // next is the file type
+                    is_valid = checkfile(ext);
+                    if (is_valid == true){
+                        ItemVisual_selected.innerHTML= '<h6 class="text-success">'+ItemVisualIput.files[0].name+'.</h6>';
+                    }
+                    else if(is_valid == false){
+                        ItemVisualIput.value =null;
+                        ItemVisual_selected.innerHTML= '<h6 class="text-danger">Please all files must be of jpeg/png/jpg.</h6>';
+                    }
+                  
+                }
+                console.log("Hi from end")
+                
+            }
+            function checkfile(ext){
+                is_valid = false;
+                if ( ext ==  "jpeg"){
+                   
+                    is_valid = true;
+
+                    
+                }
+                else if ( ext ==  "png"){
+                   
+                    is_valid = true;
+                }
+                else if ( ext ==  "jpg"){
+                   
+                    is_valid = true;
+                }
+               
+                return is_valid
+            }
+        </script>
+{% endblock %}

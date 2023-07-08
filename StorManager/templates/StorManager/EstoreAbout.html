@@ -1,0 +1,100 @@
+{% extends "StorManager/base.html" %}
+
+{% block content %}
+
+
+
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div  style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:40%; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                    <p >
+                        <b> {{ message }}.</b>
+                    </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+
+    <div style="padding:1rem">
+        <center>
+            <div id="msgDiv"  style="padding:1rem;  border:solid 2px white; border-radius:15px; width:100%; display:flex; justify-content:center;align-centent:center;color:white" >
+                <h2><b>{{estore.EstoreName}}</b></h2>
+            </div>
+        </center>
+    </div>
+    <style>
+        
+    </style>
+
+
+    <div class="container" style="display: flex;justify-content: center;align-items: center; ">
+        <div class="row" >
+            <div id="itemImangeDive" class="col-md-6" style="border-radius:20px;border:solid 1px white;border-right: none;display: flex;justify-content: center;align-items: center; padding:10px; " >
+                <img id="ItemVisual_selected" style="width:inherit; width:100%;border-radius:12px" src="{% static 'manageProfile/images/hair4uLogo.jpg' %}" />
+            </div>
+            <div class="col-md-4" id="ItemInfoDiv"  style="border:solid 1px white;border-left: none;border-radius:20px; padding:10px; ">
+                <form method="post"  enctype="multipart/form-data">
+                    {% csrf_token %}
+                     
+                    <div>
+                        <label class="form-label" >Email: <b>{{estore.EmailAddress}}</b></label>
+                       
+                    </div> 
+                    
+                    <div>
+                        <label class="form-label" >Mobile: <b>{{estore.PhoneNumber}}</b></label>
+                       
+                    </div>
+                    <div>
+                        <label class="form-label" >Address: <b>{{estore.Address}}</b></label>
+                       
+                    </div> 
+                   
+                    <div>
+                        <label class="form-label" >Description</label>
+                        <textarea disabled type="text" name="ItemDescription"  class="form-control form-control-lg">{{estore.Description}}</textarea>
+                       
+                    </div>
+                    <div >
+                        <br/>
+                        <!--id="ItemVisual_selected"-->
+                        <div  style="min-height:40px;height:auto; cursor:pointer;padding:10px; display:flex; justify-content:center; align-content:center">
+                        
+                            
+                                
+                            {% if user.is_authenticated %}
+                                {% if user.is_superuser %}
+                           
+                                   
+                                    <a href="{% url 'updateEstore' %}"><i class="fas fa-3x fa-pencil-alt edit-icon"></i></a>
+                                {% endif %}
+                            {% endif %}
+                            
+                        </div>
+                        
+                       
+                      
+        
+                    </div>
+                
+                    
+                </form>
+            </div>
+
+          
+        
+
+        </div>
+
+
+    </div>
+
+     
+{% endblock %}

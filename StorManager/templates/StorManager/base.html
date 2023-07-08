@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {%load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   
+    {% comment %} <link rel="shortcut icon" href="{% static 'manageProfile/images/kzn-sports-confederation-logo.png' %}" type="image/x-icon">
+    {% endcomment %}
+    <title>CNNM.com</title>
+    <!--Profile css-->
+    <link rel="stylesheet" href="{% static 'manageProfile/Profile.css' %}">
+    <!--Profile css-->
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static 'manageProfile/css/style5.css' %}">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'manageProfile/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'manageProfile/css1/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'manageProfile/css1/bootstrap.css' %}" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- nice selecy -->
+  
+  <link rel="stylesheet" href="{% static 'manageProfile/css1/nice-select.min.css' %}">
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="{% static 'manageProfile/css1/font-awesome.min.css' %}" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'manageProfile/css1/style.css' %}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{% static 'manageProfile/css1/responsive.css' %}" rel="stylesheet" />
+
+  <style>
+    #nav-link{
+        color:#FF69B4;
+    }
+    
+  </style>
+</head>
+
+<body>
+
+    <div class="wrapper" >
+        <!-- Sidebar Holder -->
+    
+        <nav id="sidebar" style="background-color:#F3CFC6">
+            <div  style="background-color:#F3CFC6" class="sidebar-header">
+                <img style="width:inherit;width:100%;border-radius:12px" src="{% static 'manageProfile/images/hair4uLogo.jpg' %}"/>
+                
+            </div>
+            <ul class="list-unstyled components">
+
+             
+                
+                <li style="color:white">
+                   
+                    <a style="border:solid 1px white;color:white;background-color:#FFB6C1" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Estore</a>
+                    <ul style="background-color:#FFB6C1;color:white" class="collapse list-unstyled" id="pageSubmenu">
+                       
+                        <li>
+                            <a style="background-color:#FFB6C1;color:white;" href="#"><b>My Estore Details</b></a>
+                        </li>
+                        <li>
+                            <a style="background-color:#FFB6C1;color:white;" href="#"><b>Estore Items</b></a>
+
+                           
+                        </li>
+                       
+                    </ul>
+                </li>
+                
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="#" ></a>
+                </li>
+                <br>
+                <li>
+            
+                </li>
+            </ul>
+            
+        </nav>
+
+        <!-- Page Content Holder -->
+        <div id="content" style="background-color:#FFB6C1">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="border-radius:30px">
+                
+                <div class="container-fluid" style="color: black;">
+               
+                   
+                    <a class="nav-link" href="{% url 'home' %}" style="color: #FF69B4;"> <img style="width:inherit;width:50px;border-radius:12px" src="{% static 'manageProfile/images/hair4uLogo.jpg' %}"/></a>
+                    
+            
+                    
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+                  
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        
+                      <ul class="nav navbar-nav ml-auto"style="color: azure;">
+                       
+                            {% comment %} {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                             </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="{% url 'account' %}">{{user}}</a>
+                            </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'register' %}" >Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'loginuser' %}">Login</a>
+                                </li>
+
+                            {% endif %}
+                             {% endcomment %}
+                            <li class="nav-item">
+                                <a href="{% url 'cartTemp' %}" style="color: #FF69B4;display:flex; justify-content:center;align-content:center" class="nav-link" href="" >
+                                    
+                                    <i class="fas fa-shopping-cart cart-icon"></i><div>12</div>
+                                
+                                </a>
+                            </li>
+                            {% if user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a href="{% url 'ItemsList' %}" style="color: #FF69B4;" class="nav-link" href="">Sell Items</a>
+                                </li>
+                                
+                                {% if user.is_superuser %}
+                                    {% comment %} <li class="nav-item">
+                                        
+                                        <a style="color: black;" class="nav-link" href="#"> Supper User State</a> 
+
+                                    </li> {% endcomment %}
+                  
+                
+                                    
+                                    <li class="nav-item">
+                                        <a href="{% url 'addItem' %}" style="color: #FF69B4;" class="nav-link" href="">Add new Items</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'EstoreAbout' %}" style="color: #FF69B4;">About</a>
+                                    </li>
+                                
+                                
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a style="color: #FF69B4;" class="nav-link" href="{% url 'logoutuser' %}">logout</a>
+                                    
+                                </li>
+                            {% else %}
+
+                                <li class="nav-item">
+                                    <a style="color: #FF69B4;" class="nav-link" href="{% url 'Signup' %}">Signup</a>
+                               </li>
+                               <li class="nav-item">
+                                    <a style="color: #FF69B4;" class="nav-link"  href="{% url 'login' %}">Login</a>
+                               </li>
+
+
+
+                            {% endif %}
+                            
+                            
+                            {% comment %} {% if user.is_authenticated %} {% endcomment %}
+                             
+                                {% comment %} <li class="nav-item">
+                                <a style="color: azure;" class="nav-link" href="#">{{user.email}}</a>
+                                
+                                </li>
+                                  {% endcomment %}
+                          
+                               
+   
+                        
+                           
+                            
+                        </ul> 
+                    </div>
+                    
+                </div>
+                
+            </nav>
+            <!-- <ul style="background-color: lime;height: 20px; margin-top: 0px; box-shadow: 2px;"></ul> -->
+           
+            <br>
+            {% block content %}
+
+
+
+            {% endblock %}
+       
+            <br>
+
+            <!-- footer section -->
+            <footer class="footer_section" style="height:auto;margin-bottom:0px;width: 100%; margin-top: 10px;border-radius:30px">
+                <div class="container" style="margin-bottom:0px;padding:1rem">
+                    <center>
+                        <b class="text-center">
+                            <p style="color:#FF69B4;">
+                                &copy; <span id="displayYear"></span><b> All Rights Reserved By</b>
+                                <a href="#"><b>Hair4u By Mandy</b></a>
+                            </p>
+                        </b>
+                    </center>
+                </div>
+            </footer>
+            <!-- footer section -->
+        </div>
+    </div>
+     
+    <script src="{% static 'Login/js/main.js' %}"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+    <!-- jQery -->
+  <script src="{% static 'Login/js/jquery-3.4.1.min.js' %}"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js">
+  </script>
+  <!-- nice select -->
+  <script src="{% static 'Login/js/jquery.nice-select.min.js' %}"></script>
+  <!-- bootstrap js -->
+  <script src="{% static 'Login/js/bootstrap.js' %}"></script>
+  <!-- owl slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- custom js -->
+  <script src="{% static 'Login/js/custom.js' %}"></script>
+</body>
+
+</html>
