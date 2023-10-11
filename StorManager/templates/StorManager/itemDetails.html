@@ -2,7 +2,16 @@
 
 {% block content %}
 
+    <style>
+        #miniLInkItem{
+            background-color:#287073;
+            padding: 0.5rem;
+            color:white
 
+        }
+
+
+    </style>
 
     {% load static %}
 
@@ -11,7 +20,7 @@
         <br/>
         <div>
             <center>
-                <div  style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:40%; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                <div  style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:auto; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
                     <p >
                         <b> {{ message }}.</b>
                     </p>
@@ -29,9 +38,21 @@
             </div>
         </center>
     </div>
-    <style>
+    <div class="row" style="display:flex; justify-content: center; padding: padding:5rem">
+        {% if user.is_superuser %}
+            {% if item.ItemType == "package" %}
+                <div style="padding:0.5rem">
+                    <a id="miniLInkItem" href="{% url 'addPackageItem' itemId=item.ItemId %}" > Add more items to the package</a>
+                </div>
+            {% endif %}
+
+
+        {% endif %}
         
-    </style>
+        <br/>
+        <br/>
+
+    </div>
 
 
     <div class="container" style="display: flex;justify-content: center;align-items: center; ">
@@ -40,27 +61,28 @@
                 <img id="ItemVisual_selected" style="width:inherit; width:100%;border-radius:12px" src="http://{{domain}}/media/{{item.ItemVisual}}" />
             </div>
             <div class="col-md-4" id="ItemInfoDiv"  style="border:solid 1px white;border-left: none;border-radius:20px; padding:10px; ">
-                <form method="post"  enctype="multipart/form-data">
+                <form method="post"  enctype="multipart/form-data" style="color:white">
                     {% csrf_token %}
                     <div id="HolderInput">
-                        <label class="form-label" >Item Name</label>
-                        <input disabled type="text"  name="ItemName" value="{{item.ItemName}}" class=" form-control form-control-lg"/>
+                        <label class="form-label" ><b>Item Name: </b>{{item.ItemName}}</label>
+                        
                     </div> 
                     <div>
-                        <label class="form-label" >Price*</label>
-                        <input disabled value="{{item.Price}}" type="text" name="Price" placeholder="R0.00" class="form-control form-control-lg"/>
+                        <label class="form-label" ><b>Price: </b>{{item.Price}}</label>
+                       
                     </div> 
                     
                     <div>
-                        <label class="form-label" >Quantity*</label>
-                        <input disabled value="{{item.Quantity}}" type="number" name="Quantity"  class="form-control form-control-lg"/>
+                        <label class="form-label" ><b>Quantity: </b>{{item.Quantity}}</label>
+                        
                     </div> 
                    
                     <div>
-                        <label class="form-label" >Description*</label>
+                        <label class="form-label" ><b>Description:</b></label>
                         <textarea disabled type="text" name="ItemDescription"  class="form-control form-control-lg">{{item.ItemDescription}}</textarea>
                         <input disabled  accept="image/*" id="ItemVisualIput"  hidden type="file" name="ItemVisualIput"/>
                     </div>
+                    <hr style="background:white"/>
                     <div >
                         <br/>
                         <!--id="ItemVisual_selected"-->
@@ -92,7 +114,62 @@
                 </form>
             </div>
 
-          
+            {% if item.ItemType == "package"%}
+
+                {% if PackageItems %}
+                <br/>
+                <br/>
+                <div style="width:100%; padding:1rem; border:solid 1px white; border-top:none;border-right:none;border-radius:20px ">
+                    
+                    <div class="text-center"style="color:white" >
+                        <h2><u><b>Package Items</b></u></h2>
+                    </div>
+                    <div class="row">
+
+                        {% for item in PackageItems %}
+                        <div class="col-lg-6 mb-4" >
+                            <div style="width:100%" onclick="districtGo({{district.DistrictId}})" id="Districtitem" class="card  text-white shadow btn btn-outline-secondary" >
+                                <div  class="card-body" style="color: #FF69B4;padding:1rem;">
+                                    <div>
+                                        <h4><b>{{item.PackageItemName}}</b></h4>
+                                    </div>
+                                    <div style="justify-content:center; align-content:center;">
+                                        <b>R{{item.Price}}</b><br/>
+                                        <b>Quantity: </b>{{item.Quantity}}
+                                    </div>
+                                    <hr/>
+                                    {% if user.is_superuser %}
+                                        <div style="display:flex; justify-content:space-between; align-content:center">
+                                            
+                                            <a href="{% url 'PackageItemUpdate' PackageItemId=item.PackageItemId %}"><i class="fas fa-2x fa-pencil-alt edit-icon"></i></i></a>
+
+                                            <a href="{% url 'creatDeletePackageItem' packageItemId=item.PackageItemId %}"><i class="fas fa-2x fa-trash-alt bin-icon"></i></a>
+                                        </div>
+                                    {% endif %}
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    
+                        {% endfor %}
+                    </div>
+                <div>
+                {% else %}   
+                    <div style="width:100%">
+                        <br/>
+                            
+                            <div style="padding:1rem; border:solid 2px red;color:red; width:84%" class="text-center">
+                                    <h4><b>No Items add yet.</b></h4>
+                            </div>
+
+                    </div>  
+                {% endif %}
+
+
+
+
+            {% endif %}
         
 
         </div>
@@ -100,7 +177,7 @@
 
     </div>
 
-        <script>
+    <script>
 
            
             //script for validating image
@@ -187,5 +264,5 @@
             submit.addEventListener('click', function(){
                 submitDiv.click();
             })
-        </script>
+    </script>
 {% endblock %}

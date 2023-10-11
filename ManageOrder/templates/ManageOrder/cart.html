@@ -1,0 +1,302 @@
+{% extends "StorManager/base.html" %}
+
+
+{% block content %}
+    <style>
+        #subManuItemHolder{
+            padding:4px;
+
+        }
+
+    </style>
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px;width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+
+    {% if OrderItems or PackageItems%}
+        <center>
+                <div class="row" style="display:flex; justify-content:space-between; align-content:center;padding:1rem">
+
+                    <div class="row">
+                        <div id="subManuItemHolder">
+                            {% if order.status == "OnCreate"%}
+                                <a class="btn btn-default btn-info" href="{% url 'ItemsList' %}">Add more items</a>
+                            {% else %}
+
+                                <h2>
+                                    <b>
+                                        <i>{{order.status}}</i>
+                                    </b>
+                                </h2>
+                            {% endif %}
+                        </div>
+                       
+
+                    </div>
+                    <div class="row" style="display:flex;">
+                        {% if order.status == "OnCreate"%}
+                        <div id="subManuItemHolder">
+                            <a class="btn btn-default btn-danger" href="{% url 'clearCart' %}">Clear cart</a>
+                        </div>
+                        <div id="subManuItemHolder">
+                            <a class="btn btn-default btn-success" href="{% url 'Checkout' orderId=order.OrderId %}">Checkout order</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+
+        </center>
+        <hr style="background-color:white"/>
+   {% endif %}
+   
+    <div class="container">
+        {% if OrderItems  or PackageItems%}
+            <div class="row" style="color:white; display:flex; justify-content:space-between;align-content:center;">
+                <div style="color:white; display:flex;align-content:center;justify-content:center">
+                    <h4><b>Cart</b><i class="fas fa-shopping-cart  cart-icon"></i></h4>{{order.numItems}}
+                </div>
+                <div>
+                    <h4 ><b>Order amount: R</b>{{order.Amount}}</h4>
+
+                </div>
+            </div>
+        {% endif %}
+
+        <div>
+
+            <div class="row">
+                {% if OrderItems %}
+                    {% for item in OrderItems %}
+                
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-header" style="display:flex; justify-content:space-between;color: #FF69B4;">
+                                    <div>
+                                        <b>{{item.itemId.ItemName}}</b>
+                                    </div>
+                                   
+                                </div>
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                        {% comment %}  src="http://127.0.0.1:8000/media/TheFiles/files/Screenshot_2023-03-06_215627.png"{% endcomment %}
+                                        <img style="width:inherit; width:100%;border:solid;max-height:320px" src="http://{{domain}}/media/{{item.itemId.ItemVisual}}"/>
+                                        
+                                    </div>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2" style="display:flex; justify-content: space-between;color: #FF69B4;">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Total:
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {% if item.Item.PartOrFull == "part" %}
+
+                                                    R{{item.Item.packPrice}}
+                                                {% else %}
+                                                    R{{item.itemId.Price}}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="row no-gutters align-items-center" style="padding:1rem;display:flex; justify-content:center;align-content:center;">
+                                        
+                                        {% if order.status == "OnCreate"%}
+                                                    
+                                            <div>
+                                                <a href="{% url 'removeCartItem' OrderItemId=item.OrderItemId %}" title="Remove item from cart?" style="padding:5px;color: #FF69B4;" ><i class="fas fa-shopping-cart fa-2x  cart-icon"></i>-</a>
+                                            </div>
+
+                                         {% endif %}     
+                                            
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor%}
+                {%endif%}
+
+    
+
+
+
+
+            
+
+
+            </div>
+
+        <div>
+
+
+    </div>
+    
+    {% if PackageItems %}
+        {% if OrderItems %}
+        <hr style="background-color:white"/>
+        {% endif %}
+        <div class="container">
+            <div style="color:white; display:flex; justify-content:space-between">
+                <div style="color:white; display:flex;">
+                    <h4><b>Package items</b></h4>
+                </div>
+            
+            </div>
+
+            <div>
+
+                <div class="row">
+                    {% if PackageItems %}
+                        {% for item in PackageItems %}
+                    
+                            <div class="col-xl-3 col-md-6 mb-4" >
+                                <div class="card border-left-primary shadow h-100 py-2" >
+                                    <div class="card-header" style="display:flex; justify-content:space-between;color: #FF69B4;">
+                                        <div>
+                                            <b>{{item.Item.itemId.ItemName}}</b>
+                                        </div>
+                                        <div>
+                                            {% if item.Item.PartOrFull == "part" %}
+                                            
+                                                <a title="Edit item selection" href="{% url 'AddOrderPackageItem' itemId=item.Item.OrderItemId %}" style="padding:5px;color: #FF69B4;"><i class="fas  fa-pencil-alt edit-icon"></i></a>
+
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                            {% comment %}  src="http://127.0.0.1:8000/media/TheFiles/files/Screenshot_2023-03-06_215627.png"{% endcomment %}
+                                            <img style="width:inherit; width:100%;border:solid;max-height:320px" src="http://{{domain}}/media/{{item.Item.itemId.ItemVisual}}"/>
+                                            
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2" style="display:flex; justify-content: space-between;color: #FF69B4;">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                    Total:
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    {% if item.Item.PartOrFull == "part" %}
+
+                                                        R{{item.Item.packPrice}}
+                                                    {% else %}
+                                                        R{{item.Item.itemId.Price}}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                        <div class="row no-gutters align-items-center" style="padding:1rem;display:flex; justify-content:center;align-content:center;">
+                                        
+
+                                                    
+                                            <div>
+                                                <a href="{% url 'removeCartItem' OrderItemId=item.Item.OrderItemId %}" title="Remove item from cart?" style="padding:5px;color: #FF69B4;" ><i class="fas fa-shopping-cart fa-2x  cart-icon"></i>-</a>
+                                            </div>
+
+                                                  
+                                                
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    {% if item.Item.PartOrFull == "part" %}
+                                        <button id="btnSeeLess{{item.Item.OrderItemId}}" hidden onclick="seeLess({{item.Item.OrderItemId}})">
+                                        </button>
+
+                                        <button id="btnSeeMore{{item.Item.OrderItemId}}"  onclick="seeMOre({{item.Item.OrderItemId}})" style="background:none; border:none; color: #FF69B4;">
+
+                                            See more
+                                        </button>
+                                        <div style="overflow:hidden; height:auto" id="item{{item.Item.OrderItemId}}">
+                                            <div >
+                                                {% for selectedItem in item.selected %}
+                                                    <div style="padding:0.2rem">
+                                                        <div style="with:100%;border:solid 1px #FF69B4;color:#FF69B4">
+                                                            
+                                                            <label style="padding:0.5rem">{{selectedItem.PackageItemId.PackageItemName}}</label>
+                                                      
+                                                            | R{{selectedItem.PackageItemId.Price}}
+                                                            
+                                                        </div>
+                                                        
+                                                    </div>
+                                                {% endfor %}
+    
+    
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            
+                            </div>
+
+
+                            <script>
+
+
+                                function seeMOre(PitemId){
+                                    item = document.getElementById("item"+PitemId)
+                                    console.log(item)
+                                    item.height = "auto"
+                                    btnSeeMore = document.getElementById("btnSeeMore"+PitemId)
+                                    btnSeeMore.innerHTML = "See less"
+                                    btnSeeMore.id = "btnSeeLess"+PitemId
+                                    console.log("\n\n")
+                                    btnSeeMore.onclick = seeLess(PitemId);
+                                    console.log(btnSeeMore.onclick)
+
+                                }
+                                function seeLess(PitemId){
+                                    item = document.getElementById("item"+PitemId)
+                                    item.height = "1px"
+                                    btnSeeLess = document.getElementById("btnSeeLess"+PitemId)
+                                    btnSeeLess.innerHTML = "See more"
+                                    btnSeeLess.id = "btnSeeMore"+PitemId
+                                }
+                            </script>
+                        {% endfor%}
+                    {%endif%}
+
+        
+
+
+
+
+                
+
+
+                </div>
+
+            <div>
+
+
+        </div>
+    {% endif %}
+    <script>
+
+        moreInfo = document.getElementById("moreInfo");
+        PackageItemHolder = document.getElementById("PackageItemHolder");
+
+        moreInfo.addEventLestiner('click', function(){
+            //PackageItemHolder.height = 
+        })
+        
+
+    </script>
+{% endblock %}

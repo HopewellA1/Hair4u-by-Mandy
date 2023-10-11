@@ -1,5 +1,7 @@
+
+from decimal import Decimal
 from django.shortcuts import render, redirect,get_object_or_404,HttpResponse
-from .models import Estore,Finance,Item
+from .models import Estore,Finance,Item,PackageItem
 from django.contrib import messages
 from datetime import datetime
 from django.contrib.auth.models import User 
@@ -75,50 +77,146 @@ def addItem(request):
     
     
     if request.method == 'POST':
-        
+        try:
+            price = request.POST["Price"]
+            print(price)
+            price = float(price)
+        except:
+            price = 0.0
         user =  request.user
         item = Item.objects.create(
             EstorId = estore,
             AddeBy = user,
             ItemName = request.POST["ItemName"],
-            Price = request.POST["Price"],
+            Price = price,
             BuyPrice = 'None',
             Investament = '0',
             NumSold = 0,
             Quantity = request.POST["Quantity"],
-         
             ItemVisual = request.FILES["ItemVisualIput"],
             ItemDescription = request.POST["ItemDescription"],
+            #ItemType = request.POST["ItemType"],
             
         )
         msg = "Item has been added successfully on estore."
-    #     file = {
-    #                 'Visual':request.FILES["ItemVisualIput"],
-    #             }
-                            
-    #     payload ={
-    #                 'ItemId':item.ItemId,
-    #             }
-    #     domain = get_current_site(request).domain
-    #     url = "https://"+domain+"/TheFilesItemVisualCreate/"
-    #    # url = "{% url 'ItemVisualUpdate' itemId=%}"
-    #     r = requests.post(url, data = payload,files=file)
         
-    #     #{'ItemId': 10, 'Visual': '/media/TheFiles/files/Screenshot_2023-03-11_053952.png'}
-    #     print(r.status_code)
-    #     data = r.json()
-    #     if r.status_code == 200:
-    #         item.ItemVisual = data["Visual"]
-    #         item.save() 
-    #         msg += " And the item image is saved succefully on the database."
-    #     else:
-    #         msg += " And the was a problem saving the image, error: "+r.status_code  
         
+        if price == 0.0 and item.ItemType == 'package':
+            msg += "\nPlease add the package information to make the full item"
+            messages.success(request, msg)
+            return redirect("addPackageItem", itemId=item.ItemId )
+            
+ 
         
        
         messages.success(request, msg)
         return redirect("addItem")
+
+
+
+def addPackageItem(request, itemId):
+    item = get_object_or_404(Item,pk= itemId)
+    PackageItems = PackageItem.objects.filter(ItemId = item)
+    if  request.method == 'GET':
+        domain = get_current_site(request).domain
+        
+        
+        return render(request, 'StorManager/addPackageItem.html', {"item":item, "PackageItems":PackageItems , "domain":domain})
     
+    
+    if request.method == 'POST':
+        packageItem = PackageItem.objects.create(
+            ItemId =item,
+            PackageItemName = request.POST["PackageItemName"],
+            Price = request.POST["Price"],
+            
+            
+            
+        )
+        
+        
+        messages.success(request, "package item added successfully.")
+        return redirect("addPackageItem",itemId = item.ItemId )
+        
+@login_required
+def PackageItemUpdate(request, PackageItemId):
+    
+    packageItem = get_object_or_404(PackageItem, pk = PackageItemId)
+    item = packageItem.ItemId
+    
+    if request.method=='GET':
+        
+        
+        return render(request, 'StorManager/PackageItemUpdate.html',{"packageItem":packageItem,"item":item} )     
+    
+    
+    
+    if request.method =='POST':
+        
+        numUpdates = 0
+        
+        if packageItem.PackageItemName  != request.POST["PackageItemName"]:
+            packageItem.PackageItemName = request.POST['PackageItemName']
+            print("PackageItemName "+ request.POST["PackageItemName"])
+            numUpdates += 1
+            
+        if packageItem.Price != Decimal(request.POST["Price"], context=None):
+            item.Price =item.Price - packageItem.Price
+            
+            packageItem.Price = Decimal( request.POST["Price"], context=None)
+            numUpdates += 1
+            print("Price: "+ request.POST["Price"])
+            
+        if packageItem.Quantity != int(request.POST["Quantity"]):
+            packageItem.Quantity = request.POST["Quantity"]
+            numUpdates += 1
+            print("quantity: "+ str(request.POST["Quantity"]))
+            
+        if numUpdates > 0 :
+            packageItem.save()
+            messages.success(request,"Changes are saved successfully")
+        else:
+            messages.info(request, "No changes made")
+            
+        return redirect("PackageItemUpdate", PackageItemId=packageItem.PackageItemId)
+        
+              
+            
+def DeletePackageItem(request, packageItemId):
+    
+    packageItem = get_object_or_404(PackageItem, pk = packageItemId)
+    item = packageItem.ItemId
+    if request.method == 'GET':
+        
+        messages.error(request, "Are you sure you want to delete this item?")
+        return render(request, 'StorManager/DeletePackageItem.html', {"packageItem":packageItem, "item":item})
+    
+    
+    
+    if request.method == 'POST':
+        
+        
+        
+        packageItem.delete()
+        pass 
+    
+        messages.success(request, "The package item has been deleted succefully")
+        
+        return redirect("itemDetails",itemId = item.ItemId)          
+            
+def creatDeletePackageItem(request, packageItemId):
+    
+    packageItem = get_object_or_404(PackageItem, pk=packageItemId)
+    item = packageItem.ItemId
+    
+    packageItem.delete()
+    messages.success(request, "The package item has been deleted succefully")
+    
+    return redirect("addPackageItem", itemId = item.ItemId)
+    
+    
+               
+        
 @login_required   
 def ItemUpdate(request, itemId):
     # we will use this as the whole item update page
@@ -127,11 +225,18 @@ def ItemUpdate(request, itemId):
         
     except:
         return HttpResponse("The Item you tried to access is not found please proceed to add it")
-    
+    packageItems = None
     if request.method =='GET':
        
+       
+       
+        if item.ItemType == "package":
+            packageItems = PackageItem.objects.filter(ItemId = item)
+            print(packageItems)
+       
+        
         domain = get_current_site(request).domain
-        return render(request, 'StorManager/ItemVisualUpdate.html', {"item":item, "domain":domain})
+        return render(request, 'StorManager/ItemVisualUpdate.html', {"item":item, "domain":domain,"PackageItems": packageItems})
     
     if request.method == 'POST':
         
@@ -168,26 +273,9 @@ def ItemUpdate(request, itemId):
                 delete_file_from_field(item, 'ItemVisual')
                 item.ItemVisual = request.FILES["ItemVisualIput"]
                 numUpdate += 1
-                    # file = {
-                    #             'Visual':request.FILES["ItemVisualIput"],
-                    #         }
-                                        
-                    # payload ={
-                    #             'ItemId':item.ItemId,
-                    #         }
-                    # domain = get_current_site(request).domain
-                    # url = "http://"+domain+"/TheFilesItemVisualUpdate/"+str(item.ItemId)
-
-                    # r = requests.post(url, data = payload,files=file)
-                    # #data = r.json()
-                    # print("request status: "+str(r.status_code))
-                    # if r.status_code == 200:
-                        
-                    #     messages.success(request,"Item image is updated succefully on the database.")
-                        
-                    # else:
-                    #     messages.error(request,"The was a problem saving the image, error: "+str(r.status_code))  
-            
+                
+                
+         
         except:
             pass
         if numUpdate > 0:
@@ -207,13 +295,16 @@ def ItemUpdate(request, itemId):
 @login_required
 def itemDetails(request, itemId):
     
+    
     try:
         item = get_object_or_404(Item, pk = itemId)
         
     except:
         return HttpResponse("The Item you tried to access is not found please proceed to add it")
+    
+    packageItems = PackageItem.objects.filter(ItemId = item)
     domain = get_current_site(request).domain
-    return render(request, 'StorManager/itemDetails.html', {"item":item,"estore":item.EstorId,"domain":domain})
+    return render(request, 'StorManager/itemDetails.html', {"item":item,"estore":item.EstorId,"domain":domain, "PackageItems":packageItems})
 
 @login_required
 def estoreDetails(request, estoreId):
@@ -229,7 +320,7 @@ def estoreDetails(request, estoreId):
         
 @login_required 
 def ItemsList(request):
-    items = Item.objects.filter(Status = 'Available')
+    items = Item.objects.filter(Status = 'Available', ItemType="default")
     
     domain = get_current_site(request).domain
     return render(request, 'StorManager/ItemsList.html',{"items":items,"domain":domain})

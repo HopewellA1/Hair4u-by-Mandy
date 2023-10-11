@@ -1,0 +1,184 @@
+{% extends "StorManager/base.html" %}
+
+{% block content %}
+
+
+
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:auto; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                <p >
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+
+
+
+    <div style="padding:1rem">
+        <center>
+            <div id="msgDiv" hidden style="padding:1rem;  border:solid 2px white; border-radius:15px; width:40%; display:flex; justify-content:center;align-centent:center;" >
+            
+            </div>
+        </center>
+    </div>
+    <style>
+        
+    </style>
+  
+
+    <div class="container" style="display: flex;justify-content: center;align-items: center; ">
+        <div class="row" >
+            <div id="itemImangeDive" class="col-md-6" style="border-radius:20px;border:solid 1px white;border-right: none;display: flex;justify-content: center;align-items: center; padding:10px; " >
+                <img id="ItemVisual_selected" style="width:inherit; width:100%;border-radius:12px" src="http://{{domain}}/media/{{item.ItemVisual}}" />
+            </div>
+            <div class="col-md-4" id="ItemInfoDiv"  style="border:solid 1px white;border-left: none;border-radius:20px; padding:10px; ">
+                <form method="post"  enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="HolderInput" style="color:white">
+                        <p style="color:inherit">
+                            <b>Package name: </b>{{item.ItemName}}<br/>
+                            <b>Full package Price :R</b>{{item.Price}}<br/>
+                            
+                            <b>Quantity: </b>{{item.Quantity}}<br/>
+
+                            <b> Description:</b><br/>
+                            {{item.ItemDescription}}
+
+
+
+                        </p>
+                        <hr style="background-color:white"/>
+                        <div class="text-center">
+                            <b>Add package items</b>
+                        </div>
+                        <label style="color:white" class="form-label" ><b>PackageItem Name:</b></label>
+                        <input style="border-radius:100px; " required type="text"  name="PackageItemName" value="" class=" form-control form-control-lg"/>
+                    </div> 
+                    <div>
+                        <label style="color:white" class="form-label" ><b>Price:</b></label>
+                        <input style="border-radius:100px"  required value="" type="number" name="Price" placeholder="R0.00" step="0.01"class="form-control form-control-lg"/>
+                    </div> 
+                    
+                    <div>
+                        <label style="color:white" class="form-label" ><b>Quantity:</b></label>
+                        <input style="border-radius:100px" required value="" type="number" name="Quantity"  class="form-control form-control-lg"/>
+                    </div> 
+                    <div style="padding:10px">
+                        <button type="submit"  style="min-height:40px;height:auto; cursor:pointer;padding:10px;  border-radius:100px" class="form-control form-control-lg btn btn-default btn bg-success">
+                    
+                            <h5 class="" style="color:white" ><b>Add Item</b></h5>
+                        
+                            
+                        </button>
+
+                    </div>
+                    
+                    <div >
+                        <br/>
+                        <!--id="ItemVisual_selected"-->
+                        <div  style="min-height:40px;height:auto; cursor:pointer;padding:10px; display:flex; justify-content:space-between; align-content:center">
+                        
+                            
+                                
+                               
+                            {% if user.is_superuser %}
+                                <a href="{% url 'DeleteItem' ItemId=item.ItemId %}"><i class="fas fa-3x fa-trash-alt bin-icon"></i></a>
+                                   
+                                <a href="{% url 'ItemUpdate' itemId=item.ItemId %}"><i class="fas fa-3x fa-pencil-alt edit-icon"></i></a>
+                            {% endif %}
+                            
+                            
+                        </div>
+                        
+             
+                     
+        
+                    </div>
+                
+                    
+                </form>
+            </div>
+            
+           
+          
+            {% if PackageItems %}
+                <br/>
+                <br/>
+                <div style="width:100%; padding:1rem; border:solid 1px white; border-top:none;border-right:none;border-radius:20px ">
+                    
+                    <div class="text-center"style="color:white" >
+                        <h2><u><b>Package Items</b></u></h2>
+                    </div>
+                    <div class="row">
+
+                        {% for item in PackageItems %}
+                        <div class="col-lg-6 mb-4" >
+                            <div style="width:100%" onclick="districtGo({{district.DistrictId}})" id="Districtitem" class="card  text-white shadow btn btn-outline-secondary" >
+                                <div  class="card-body" style="color: #FF69B4;padding:1rem;">
+                                    <div>
+                                        <h4><b>{{item.PackageItemName}}</b></h4>
+                                    </div>
+                                    <div style="justify-content:center; align-content:center;">
+                                        <b>R{{item.Price}}</b><br/>
+                                        <b>Quantity: </b>{{item.Quantity}}
+                                    </div>
+                                    <hr/>
+                                    <div style="display:flex; justify-content:space-between; align-content:center">
+                                        
+                                        <a href="{% url 'PackageItemUpdate' PackageItemId=item.PackageItemId %}"><i class="fas fa-2x fa-pencil-alt edit-icon"></i></i></a>
+
+                                        <a href="{% url 'creatDeletePackageItem' packageItemId=item.PackageItemId %}"><i class="fas fa-2x fa-trash-alt bin-icon"></i></a>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    
+                        {% endfor %}
+                    </div>
+                <div>
+            {% else %}   
+                <div style="width:100%">
+                    <br/>
+                        
+                        <div style="padding:1rem; border:solid 2px red;color:red; width:84%" class="text-center">
+                                <h4><b>No Items add yet.</b></h4>
+                        </div>
+
+                </div>  
+            {% endif %}
+        <div>
+            
+
+                
+              
+         
+  
+            <script>
+
+                function districtGo(did){
+
+                    document.getElementById(did).click()
+                }
+            </script>
+        </div>
+        </div>
+        
+       
+    </div>
+   
+
+ 
+
+{% endblock %}

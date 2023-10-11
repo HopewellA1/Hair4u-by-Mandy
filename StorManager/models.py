@@ -30,7 +30,7 @@ class Item(models.Model):
     EstorId = models.ForeignKey(Estore,blank=True,null=True,on_delete=models.CASCADE)
     AddeBy = models.ForeignKey(User,blank=True,null=True,on_delete=models.CASCADE)
     ItemName = models.CharField(blank=False, null=False, max_length=60)
-    Price = models.CharField(blank=False, null=False,max_length=22)
+    Price = models.DecimalField(blank=False, null=False,max_digits=20,decimal_places=2)
     BuyPrice = models.CharField(blank=False, null=False,max_length=22)
     Profit = models.CharField(blank=False, null=False,max_length=70, default='0')
     Investament = models.CharField(blank=False, null=False,max_length=70)
@@ -40,6 +40,16 @@ class Item(models.Model):
     ExpDate = models.CharField(max_length=60,default="Not applicable")
     ItemVisual = models.FileField(blank=False,null=False,upload_to='StorManager/itemImages')
     ItemDescription = models.TextField(blank=False, null=False,max_length=300, default="Describe")
+    ItemType = models.CharField(null=False, blank=False, default="default", max_length=20)
+    
+    
+    
+class PackageItem(models.Model):
+    PackageItemId =  models.AutoField(primary_key=True,blank=False, null=False,auto_created=True)
+    ItemId = models.ForeignKey(Item,blank=True,null=True,on_delete=models.CASCADE)
+    PackageItemName = models.CharField(blank=False, null=False, max_length=60)
+    Price =  models.DecimalField(blank=False, null=False,max_digits=20,decimal_places=2)
+    Quantity = models.IntegerField(default=1)
     
 
     

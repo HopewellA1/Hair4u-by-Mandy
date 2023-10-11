@@ -39,7 +39,7 @@ def ActivationEmail(request, user, to_email):
         "protocol": 'https' if request.is_secure() else 'http'
     })
     print(to_email)
-    if send_mail(mail_subject,f"{message}"  ,'admin@kznsc.com',[f'{to_email}'], fail_silently=False,
+    if send_mail(mail_subject,f"{message}"  ,'hairforyoubymandy@gmail.com',[f'{to_email}'], fail_silently=False,
     ):
         return messages.success(request,f"Verification email sent to {to_email}, please verify to access your account.")
     else:
@@ -56,7 +56,7 @@ def ResertEmail(request, user, to_email):
         "protocol": 'https' if request.is_secure() else 'http'
     })
     print(to_email)
-    if send_mail(mail_subject,f"{message}"  ,'admin@kznsc.com',[f'{to_email}'], fail_silently=False,
+    if send_mail(mail_subject,f"{message}"  ,'hairforyoubymandy@gmail.com',[f'{to_email}'], fail_silently=False,
     ):
         return messages.success(request,f"Click on the link that has been sent to {to_email}, to reset your password.")
     else:
@@ -137,11 +137,13 @@ def signupuser(request):
         if request.POST['password1'] == request.POST['password2']:
             try:
                 user = User.objects.create_user(first_name = request.POST["first_name"],last_name = request.POST["last_name"],username = request.POST['email'].lower(),email =request.POST['email'].lower(), password = request.POST['password1'],)# email = request.POST['email'],
-                user.is_active = False
+                user.is_active = True
                 user.save()
-                ActivationEmail(request, user, request.POST['email'].lower())
+                #ActivationEmail(request, user, request.POST['email'].lower())
                 #login(request,user)
-                messages.success(request,"Account created successfully, an email has been sent for activation please visit email ("+request.POST['email'].lower()+") to activate your account.")
+                #messages.success(request,"Account created successfully, an email has been sent for activation please visit email ("+request.POST['email'].lower()+") to activate your account.")
+                
+                messages.success(request,"Account created successfully please login")
                 return redirect('home')
             except IntegrityError:
                 messages.error(request, "something went wrong please try again.")

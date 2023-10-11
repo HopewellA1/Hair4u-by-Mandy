@@ -18,11 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from LoginManager.views import loginuser
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('StorManager.urls')),
     path('TheFiles', include('TheFiles.urls')),
-    path('LoginManager',include('LoginManager.urls'))
+    path('LoginManager',include('LoginManager.urls')),
+    path('ManageOrder',include('ManageOrder.urls')),
+    path('accounts/login/', loginuser, name='login'),
     
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

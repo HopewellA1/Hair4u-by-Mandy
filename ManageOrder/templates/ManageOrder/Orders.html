@@ -1,0 +1,104 @@
+{% extends "StorManager/base.html" %}
+
+
+{% block content %}
+    <style>
+        #subManuItemHolder{
+            padding:4px;
+
+        }
+
+    </style>
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem; background-color:azure; border:solid 2px #284678; border-radius:15px;width:auto">
+                <p style="color:#fa1414">
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+
+
+
+
+    <div>
+
+        <div class="row">
+            {% if Pendingorders %}
+                {% for order in Pendingorders %}
+            
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-header" style="display:flex; justify-content:space-between;color: #FF69B4;">
+                                <div>
+                                    <b>{{order.user.first_name}}</b>
+                                </div>
+                               
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" style="display:flex;justify-content:center">
+                                    {% comment %}  src="http://127.0.0.1:8000/media/TheFiles/files/Screenshot_2023-03-06_215627.png"{% endcomment %}
+                                    <img style="width:inherit; width:100%;border:solid;max-height:320px" src="{% static 'manageProfile/images/hair4uLogo.jpg' %}"/>
+                                    
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2" style="display:flex; justify-content: space-between;color: #FF69B4;">
+                                        
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            R{{order.Amount}}
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                                <div class="row no-gutters align-items-center" style="padding:1rem;display:flex; justify-content:center;align-content:center;">
+                                    
+                                   
+                                                
+                                        <div>
+                                            <a class="btn btn-success" href="{% url 'Approve' orderId=order.OrderId %}" title="Remove item from cart?" style="padding:5px;" >Approve order</a>
+                                        </div>
+
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor%}
+            {%endif%}
+
+
+
+
+
+
+        
+
+
+        </div>
+
+    <div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

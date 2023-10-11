@@ -1,0 +1,66 @@
+{% extends "StorManager/base.html" %}
+
+{% block content %}
+
+
+
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:auto; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                <p >
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+
+    <div class="text-center" style="color:white; display:flex; align-content:centent; justify-content:center">
+
+        from <h3> {{item.ItemName}}<h3>
+    </div>
+    <hr/>
+
+
+    <div class="container">
+  
+        <center>
+
+            <form method="post" style="color:white">
+                {% csrf_token %}
+                <div>
+                    <label class="form-label" ><b>Package item name: </b>{{packageItem.PackageItemName}}</label>
+                    
+                </div> 
+                <div>
+                    <label class="form-label" ><b>Price: {{packageItem.Price}}</b></label>
+                   
+                </div> 
+                <div>
+                    <label class="form-label" ><b>Quantity: </b>{{packageItem.Quantity}}</label>
+                    
+                </div> 
+                           
+                <div style="display:flex; justify-content:center; padding: 1rem">
+                    
+                    <input type="submit" style="border-radius:100px; width:40%;background-color:#284678;color:white "  class="form-control form-control-lg" value="Confirm Item delete" />
+                </div>
+                <a href="{% url 'itemDetails' itemId=item.ItemId %}" class="form-control form-control-lg btn btn-default btn-warning" style="color:white; border-radius:100px; width:40%; "> Cancel</a>  
+            </form>
+        </center>
+
+
+    <div>
+
+
+
+
+
+{% endblock %}

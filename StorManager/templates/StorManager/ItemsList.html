@@ -9,7 +9,7 @@
             <br/>
             <div>
                 <center>
-                    <div style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:40%; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                    <div style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:auto; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
                     <p >
                         <b> {{ message }}.</b>
                     </p>
@@ -19,7 +19,7 @@
 
         {% endfor %}
     {% endif %}
-
+    
 
 
 
@@ -42,20 +42,28 @@
                                     </div>
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2" style="display:flex; justify-content: space-between;">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                {{item.ItemName}}</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">R{{item.Price}}</div>
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1" >
+                                                {{item.ItemName}}
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color: #FF69B4;">R{{item.Price}}</div>
                                         </div>
                                        
                                     </div>
                                     <div class="row no-gutters align-items-center" style="padding:1rem">
-                                        <div class="col-auto"  styl="display:flex; justify-content:space-between;align-content:center" >
-                                            <a href="{% url 'itemDetails' itemId=item.ItemId %}"> <i class="fas fa-eye view-icon"></i></a>
+                                        <div class="col-auto"  styl="display:flex; justify-content:space-between;align-content:center;color: #FF69B4;" >
+                                            <a title="See item details" style="color: #FF69B4;padding:0.5rem" href="{% url 'itemDetails' itemId=item.ItemId %}"> <i class="fas fa-eye view-icon"></i></a>
                                             
-                                            <a style="padding:5px" href="#"><i class="fas fa-shopping-cart  cart-icon"></i></a>
-                                            <a href="{% url 'DeleteItem' ItemId=item.ItemId %}"><i class="fas  fa-trash-alt bin-icon"></i></a>
-                                           
-                                            <a href="{% url 'ItemUpdate' itemId=item.ItemId %}" style="padding:5px"><i class="fas  fa-pencil-alt edit-icon"></i></a>
+                                            {% if if user.is_superuser !=True %}
+                                                <div >
+                                                    <a title="Add item to cart" style="color: #FF69B4;padding:0.5rem" href="{% url 'createOrder' itemId=item.ItemId %}" onclick="ItemOrder({{item.ItemId}})" style="padding:5px" ><i class="fas fa-shopping-cart  cart-icon"></i>+</a>
+                                                    
+                                                </div>
+                                            {% else %}
+                                                    
+                                                <a style="color: #FF69B4;padding:0.5rem" href="{% url 'DeleteItem' ItemId=item.ItemId %}"><i class="fas  fa-trash-alt bin-icon"></i></a>
+                                                
+                                                <a style="color: #FF69B4;padding:0.5rem" href="{% url 'ItemUpdate' itemId=item.ItemId %}" style="padding:5px"><i class="fas  fa-pencil-alt edit-icon"></i></a>
+                                            {% endif %}
                                         </div>
                                     </div>
                             
@@ -82,6 +90,17 @@
 
 
 
+    
+    <script>
 
+  
+
+
+   
+
+        
+
+
+    </script>
 
 {% endblock %}

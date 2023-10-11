@@ -1,0 +1,95 @@
+{% extends "StorManager/base.html" %}
+
+{% block content %}
+
+
+
+    {% load static %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <br/>
+        <div>
+            <center>
+                <div style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px;width:auto; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                <p >
+                    <b> {{ message }}.</b>
+                </p>
+                </div>
+            </center>
+        </div>
+
+        {% endfor %}
+    {% endif %}
+
+
+  
+
+    <div class="container" style="display: flex;justify-content: center;align-items: center; ">
+        
+
+        <div>
+
+            <form method="post"  enctype="multipart/form-data">
+                {% csrf_token %}
+                <div id="HolderInput" style="color:white">
+                    <p style="color:inherit">
+                        <b>Package name: </b>{{item.ItemName}}<br/>
+                        <b>Full package Price :R</b>{{item.Price}}<br/>
+                        
+                        <b>Quantity: </b>{{item.Quantity}}<br/>
+
+                        <b> Description:</b><br/>
+                        {{item.ItemDescription}}
+
+
+
+                    </p>
+                    <label class="form-label" >PackageItem Name</label>
+                    <input style="border-radius:100px" type="text"  name="PackageItemName" value="{{packageItem.PackageItemName}}" class=" form-control form-control-lg"/>
+                </div> 
+                <div>
+                    <label class="form-label" >Price*</label>
+                    <input style="border-radius:100px"  value="{{packageItem.Price}}" type="number" name="Price" placeholder="R0.00" step="0.01"class="form-control form-control-lg"/>
+                </div> 
+                
+                <div>
+                    <label class="form-label" >Quantity*</label>
+                    <input style="border-radius:100px" value="{{packageItem.Quantity}}" type="number" name="Quantity"  class="form-control form-control-lg"/>
+                </div> 
+                <div style="padding:10px">
+                    <button type="submit"  style="min-height:40px;height:auto; cursor:pointer;padding:10px;  border-radius:100px" class="form-control form-control-lg btn btn-default btn bg-success">
+                
+                        <h5 class="" style="color:white" ><b>Save changes</b></h5>
+                    
+                        
+                    </button>
+
+                </div>
+                
+                <div >
+                    <br/>
+                    <!--id="ItemVisual_selected"-->
+                    <div  style="min-height:40px;height:auto; cursor:pointer;padding:10px; display:flex; justify-content:space-between; align-content:center">
+                    
+                        
+                            
+                           
+                        
+                        <a style="min-height:40px;height:auto; cursor:pointer;padding:10px;  border-radius:100px" class="form-control form-control-lg btn btn-default btn bg-info text-center" id="fullLink"   href="{% url 'itemDetails' itemId=item.ItemId %}"><h5 class="" style="color:white" ><b>Go to the full Item details</b></h5> </a>
+              
+                    </div>
+                    
+         
+                 
+    
+                </div>
+            
+                
+            </form>
+        </div>
+
+    </div>
+
+
+{% endblock %}

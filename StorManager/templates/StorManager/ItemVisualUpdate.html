@@ -11,7 +11,7 @@
         <br/>
         <div>
             <center>
-                <div  style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:40%; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                <div  style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:auto; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
                     <p >
                         <b> {{ message }}.</b>
                     </p>
@@ -90,7 +90,62 @@
 
           
         
+            {% if item.ItemType == "package"%}
 
+                {% if PackageItems %}
+                <br/>
+                <br/>
+                <div style="width:100%; padding:1rem; border:solid 1px white; border-top:none;border-right:none;border-radius:20px ">
+                    
+                    <div class="text-center"style="color:white" >
+                        <h2><u><b>Package Items</b></u></h2>
+                    </div>
+                    <div class="row">
+
+                        {% for item in PackageItems %}
+                        <div class="col-lg-6 mb-4" >
+                            <div style="width:100%" onclick="districtGo({{district.DistrictId}})" id="Districtitem" class="card  text-white shadow btn btn-outline-secondary" >
+                                <div  class="card-body" style="color: #FF69B4;padding:1rem;">
+                                    <div>
+                                        <h4><b>{{item.PackageItemName}}</b></h4>
+                                    </div>
+                                    <div style="justify-content:center; align-content:center;">
+                                        <b>R{{item.Price}}</b><br/>
+                                        <b>Quantity: </b>{{item.Quantity}}
+                                    </div>
+                                    <hr/>
+                                    {% if user.is_superuser %}
+                                        <div style="display:flex; justify-content:space-between; align-content:center">
+                                            
+                                            <a href="{% url 'PackageItemUpdate' PackageItemId=item.PackageItemId %}"><i class="fas fa-2x fa-pencil-alt edit-icon"></i></i></a>
+
+                                            <a href="{% url 'creatDeletePackageItem' packageItemId=item.PackageItemId %}"><i class="fas fa-2x fa-trash-alt bin-icon"></i></a>
+                                        </div>
+                                    {% endif %}
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    
+                        {% endfor %}
+                    </div>
+                <div>
+                {% else %}   
+                    <div style="width:100%">
+                        <br/>
+                            
+                            <div style="padding:1rem; border:solid 2px red;color:red; width:84%" class="text-center">
+                                    <h4><b>No Items add yet.</b></h4>
+                            </div>
+
+                    </div>  
+                {% endif %}
+
+
+
+
+            {% endif %}
         </div>
 
 

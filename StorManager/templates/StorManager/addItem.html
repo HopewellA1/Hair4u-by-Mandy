@@ -11,7 +11,7 @@
         <br/>
         <div>
             <center>
-                <div style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:40%; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
+                <div style="padding:1rem;  border:solid 2px #FF69B4; border-radius:15px; width:auto; display:flex; justify-content:center;align-centent:center;" class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'error' %}alert-danger{% endif %}">
                 <p >
                     <b> {{ message }}.</b>
                 </p>
@@ -36,9 +36,11 @@
                 <label class="form-label" ><b>Item Name</b>*</label>
                 <input  type="text" required name="ItemName"  class=" form-control form-control-lg"/>
             </div> 
-            <div>
+            
+            <div id="priceHolder">
                 <label class="form-label" ><b>Price</b>*</label>
-                <input required type="text" name="Price" placeholder="R0.00" class="form-control form-control-lg"/>
+                <input class="form-control form-control-lg" type="number" name="Price" step="0.01" placeholder="R0.00"  required id="id_Price">
+                
             </div> 
          
             <div>
@@ -49,7 +51,7 @@
             <div>
                 <label class="form-label" ><b>Description</b>*</label>
                 <textarea required type="text" name="ItemDescription"  class="form-control form-control-lg"></textarea>
-                <input id="ItemVisualIput"  hidden type="file" name="ItemVisualIput"/>
+                <input id="ItemVisualIput"    hidden type="file" accept="image/*" name="ItemVisualIput"/>
             </div>
             <div >
                 <br/>
@@ -61,10 +63,7 @@
 
                 </div>
                
-                {% if access == "update"%}
-
-                <h5 class="text-warning"><b>Click to update file</b></h5>
-                {% endif %}
+        
 
             </div>
             </div>
@@ -192,5 +191,21 @@
                
                 return is_valid
             }
+
+
+
+
+            ItemType = document.getElementById("ItemType")
+            priceHolder = document.getElementById("priceHolder")
+            ItemType.addEventListener("change",function() {
+                if( ItemType.value == 'package'){
+                    priceHolder.innerHTML = '<label class="form-label" ><b>Full package Price</b>*</label><input class="form-control form-control-lg" type="number" name="Price" step="0.01" placeholder="R0.00"  required id="id_Price">';
+                    
+                }
+                
+                
+
+            })
+
         </script>
 {% endblock %}
